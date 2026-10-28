@@ -327,6 +327,11 @@ function recount(on){
     while (nx && !nx.classList.contains('sub')) { if (!nx.classList.contains('nocore')) any = true; nx = nx.nextElementSibling; }
     li.classList.toggle('nocore', on && !any);
   });
+  let k = 0;  // core view numbers its own questions 1..N; original numbers come back when it is off
+  document.querySelectorAll('article.q .qn').forEach(sp => {
+    if (!sp.dataset.n) sp.dataset.n = sp.textContent;
+    sp.textContent = on ? (sp.closest('article.q').classList.contains('core') ? ++k : sp.dataset.n) : sp.dataset.n;
+  });
   const tq = document.querySelector('.tally b'); if (tq) tq.textContent = on ? CORE.size.toLocaleString() : tq.dataset.all || tq.textContent;
 }
 (() => { const tq = document.querySelector('.tally b'); if (tq) tq.dataset.all = tq.textContent; })();
